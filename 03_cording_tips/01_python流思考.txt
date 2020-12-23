@@ -219,3 +219,24 @@ else:
 # Loop 1
 
 for文が最後まで実行されたらelseブロックを実行する。
+
+
+/*************************************************/
+/* try/except/else/finallyの各ブロックを活用する */
+/*************************************************/
+pythonで例外処理をしている時には、４種類の処理が必要なる時があります。
+機能的には、try/except/else/finallyの各ブロックで扱える
+
+・try/finallyでは、tryブロックで例外が起こっても、起こんなくても、後始末処理を実行できる
+・elseブロックは、tryブロックでのコードを最小にして、成功した場合を見た目的にもtry/exceptブロックから区別できるようにする
+・elseブロックは、成功したtryブロックの後で、finallyブロックによる共通後始末処理の前に、、追加作業を行うに便利
+
+def load_json_key(data, key):
+    try:
+        result_dict = json.loads(data) #ValueErrorが起きるかも
+    except ValueError as e:
+        raise KeyError from e
+    else:
+        return result_dict[key]        #KeyErrorが起きるかも
+
+tryブロックで起きる例外は、exceptブロックでキャッチされて処理されます。tryブロックで例外が起きずに終了すると、elseブロックにて処理が行われます。もしelseブロックで例外が起きた場合は、tryブロックの外なので、呼び出し元まで伝播する
